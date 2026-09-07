@@ -394,9 +394,12 @@
   }
   @media (max-width:820px){ .pimax-plate{grid-template-columns:1fr;} }
   .pimax-copy{padding:2.6rem;}
-  .pimax-copy .eyebrow{color:var(--crimson);}
+  .pimax-copy .eyebrow{color:var(--crimson);margin-bottom:0;}
   .pimax-copy .eyebrow::before{background:var(--crimson);}
   .pimax-copy h2{font-size:clamp(1.7rem,3vw,2.2rem);margin-bottom:1rem;}
+  .pimax-badge-row{display:flex;align-items:center;gap:1.3rem;margin-bottom:1.2rem;}
+  .pimax-badge{width:78px;height:auto;flex:none;}
+  .pimax-badge-row h2{margin-bottom:0;}
   .pimax-copy p{color:var(--paper-dim);max-width:46ch;margin-bottom:1.6rem;}
   .code-plate{
     display:inline-flex;
@@ -409,6 +412,8 @@
   .code-plate .k{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fog);}
   .code-plate .v{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;color:var(--amber);letter-spacing:0.04em;}
   .pimax-stats{
+    position:relative;
+    overflow:hidden;
     background:var(--surface);
     border-left:1px solid var(--edge);
     padding:2.6rem;
@@ -416,6 +421,25 @@
     flex-direction:column;
     justify-content:center;
     gap:1.6rem;
+  }
+  .pimax-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0.55;
+  }
+  .pimax-stats::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(18,21,28,0.55), rgba(18,21,28,0.92));
+    pointer-events:none;
+  }
+  .pimax-stats .row{
+    position:relative;
+    z-index:1;
   }
   @media (max-width:820px){ .pimax-stats{border-left:none;border-top:1px solid var(--edge);} }
   .pimax-stats .row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--edge);padding-bottom:1rem;}
@@ -545,23 +569,24 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <p class="eyebrow"><span class="live-dot"></span>Live feed — auto-updating</p>
+        <p class="eyebrow"><span class="live-dot"></span>Latest upload</p>
         <h2>Latest from the channel</h2>
       </div>
-      <p class="section-note">Pulled straight from the YouTube uploads playlist — publish a new video and it shows up here on its own, nothing to update.</p>
+      <p class="section-note">Straight from the channel — updated here each time we publish something new.</p>
     </div>
+    <!-- To update: swap the video ID below for your newest upload's YouTube video ID (the part after watch?v= in its URL) -->
     <figure class="panel video-frame">
       <div class="ratio">
         <iframe
-          src="https://www.youtube.com/embed/videoseries?list=UUnSA9SpMXg8hP7Rw5XH9eNA"
-          title="Next Level Sim Gaming — latest uploads"
+          src="https://www.youtube.com/embed/BIKiGuAnpHM"
+          title="I Used the Pimax Dream Air for 4 Months... Here is What Happened"
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>
       </div>
       <figcaption>
-        <span>NEXT_LEVEL_SIM_GAMING // UPLOADS</span>
+        <span>NEXT_LEVEL_SIM_GAMING // LATEST</span>
         <a href="https://www.youtube.com/@nextlevelsimgaming/videos" target="_blank" rel="noopener" style="color:var(--amber);text-decoration:none;">Full channel →</a>
       </figcaption>
     </figure>
@@ -627,8 +652,13 @@
   <div class="wrap">
     <div class="panel pimax-plate">
       <div class="pimax-copy">
-        <p class="eyebrow">Approved partner</p>
-        <h2>Pimax Sim Racing Ambassador</h2>
+        <div class="pimax-badge-row">
+          <img src="pimax-badge.jpg" alt="Pimax Approved Sim Racing Ambassador badge" class="pimax-badge">
+          <div>
+            <p class="eyebrow">Approved partner</p>
+            <h2>Pimax Sim Racing Ambassador</h2>
+          </div>
+        </div>
         <p>Every VR headset featured on this channel is tested the way it'll actually be used — long stints, real sims, real frame counters. As an approved Pimax Sim Racing Ambassador, that testing comes with a discount if you're ready to upgrade.</p>
         <div class="code-plate">
           <span class="k">Discount&nbsp;code</span>
@@ -642,6 +672,9 @@
         </div>
       </div>
       <div class="pimax-stats mono">
+        <video class="pimax-video" autoplay muted loop playsinline preload="auto" poster="pimax-rotate-poster.jpg">
+          <source src="pimax-rotate.mp4" type="video/mp4">
+        </video>
         <div class="row"><span>Status</span><span style="color:var(--amber);">Ambassador</span></div>
         <div class="row"><span>Focus headset</span><span>Dream&nbsp;Air</span></div>
         <div class="row"><span>Code</span><span>NLSimgaming</span></div>
