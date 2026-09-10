@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pimax Setup &amp; Fix Guide — Crystal Light, Crystal Super, Dream Air | Next Level Sim Gaming</title>
+<meta name="description" content="Full Pimax setup and troubleshooting guide for Crystal Light, Crystal Super QLED/Micro-OLED, Dream Air and Dream Air SE — fixes for black screen, no DisplayPort signal, headset not detected, eye tracking and frame rate problems on Pimax Play v2.0.3.">
+<meta property="og:title" content="Pimax Setup & Fix Guide — Crystal Light, Crystal Super, Dream Air">
+<meta property="og:description" content="Clean-install walkthrough and symptom-by-symptom fix list for the current Pimax PCVR line, written for sim rigs where a wheelbase, pedals and a button box all fight for the same USB bus.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://nextlevelsimgaming.co.uk/pimax-fix-guide-cover.jpg">
+<meta property="og:url" content="https://nextlevelsimgaming.co.uk/pimax-setup-and-fix-guide.html">
+<meta property="og:site_name" content="Next Level Sim Gaming">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@nextlevelsim">
+<meta name="twitter:title" content="Pimax Setup & Fix Guide — Crystal Light, Crystal Super, Dream Air">
+<meta name="twitter:description" content="Clean-install walkthrough and symptom-by-symptom fix list for the current Pimax PCVR line — black screen, no DisplayPort signal, detection, eye tracking and frame rate fixes.">
+<meta name="twitter:image" content="https://nextlevelsimgaming.co.uk/pimax-fix-guide-cover.jpg">
+<link rel="canonical" href="https://nextlevelsimgaming.co.uk/pimax-setup-and-fix-guide.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0C10'/%3E%3Cpath d='M6 24 L16 7 L26 24 L20 24 L16 16 L12 24 Z' fill='%23F2A03D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600&family=Saira+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --void:#0A0C10;
+    --surface:#12151C;
+    --raised:#1A1F29;
+    --raised-hi:#212734;
+    --edge:#2A303D;
+    --edge-hi:#3A4152;
+    --amber:#F2A03D;
+    --amber-dim:#B87A2E;
+    --crimson:#D94A3D;
+    --fog:#8B93A7;
+    --paper:#EDEFF3;
+    --paper-dim:#C7CCD8;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--paper);
+    font-family:'Saira',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,'SFMono-Regular',monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+    margin:0 0 0.9em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:1.4em;
+    height:1px;
+    background:var(--amber);
+    display:inline-block;
+  }
+  h1,h2,h3,h4{
+    font-family:'Saira Condensed',system-ui,sans-serif;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    text-wrap:balance;
+    margin:0;
+    color:var(--paper);
+  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 1.5rem;
+  }
+  .panel{
+    position:relative;
+    background:var(--raised);
+    border:1px solid var(--edge);
+  }
+  .panel::before,.panel::after{
+    content:"";
+    position:absolute;
+    width:14px;
+    height:14px;
+    pointer-events:none;
+  }
+  .panel::before{
+    top:-1px;left:-1px;
+    border-top:2px solid var(--amber);
+    border-left:2px solid var(--amber);
+  }
+  .panel::after{
+    bottom:-1px;right:-1px;
+    border-bottom:2px solid var(--amber);
+    border-right:2px solid var(--amber);
+  }
+  nav{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:rgba(10,12,16,0.86);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--edge);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1.5rem;
+    height:64px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:0.65rem;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .brand-mark{
+    width:32px;height:32px;
+    border:1px solid var(--edge-hi);
+    display:flex;align-items:center;justify-content:center;
+    background:var(--surface);
+    flex:none;
+  }
+  .brand-mark svg{width:16px;height:16px;}
+  .brand-word{
+    font-family:'Saira Condensed',sans-serif;
+    font-weight:800;
+    font-size:1.05rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--paper);
+  }
+  .nav-links{
+    display:flex;
+    gap:2rem;
+    list-style:none;
+    margin:0;padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:0.85rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    font-family:'IBM Plex Mono',monospace;
+    transition:color 0.15s ease;
+  }
+  .nav-links a:hover{color:var(--amber);}
+  .nav-right{display:flex;align-items:center;gap:1.25rem;}
+  @media (max-width:820px){ .nav-links{display:none;} }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.55em;
+    padding:0.75em 1.4em;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    border:1px solid transparent;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow .15s ease;
+  }
+  .btn svg{width:1.05em;height:1.05em;flex:none;}
+  .btn-primary{background:var(--amber);color:#1A1204;font-weight:500;}
+  .btn-primary:hover{background:#FFB25A;transform:translateY(-1px);}
+  .btn-ghost{background:transparent;border-color:var(--edge-hi);color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-1px);}
+  .btn-discord{background:transparent;border-color:#3B4A6B;color:var(--paper);}
+  .btn-discord:hover{border-color:#8AA0E8;box-shadow:0 0 0 1px #8AA0E8 inset;}
+  .btn-sm{padding:0.55em 1em;font-size:0.72rem;}
+  .breadcrumb{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.05em;
+    color:var(--fog);
+    padding:1.4rem 0 0;
+  }
+  .breadcrumb a{color:var(--fog);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--amber);}
+  .guide-head{
+    padding:1.2rem 0 3rem;
+    background:
+      radial-gradient(ellipse 900px 420px at 82% -10%, rgba(242,160,61,0.14), transparent 60%),
+      linear-gradient(180deg, var(--void), var(--surface) 180%);
+    border-bottom:1px solid var(--edge);
+  }
+  .guide-tag{color:var(--amber);}
+  .guide-head h1{font-size:clamp(2rem,4.4vw,3rem);margin-bottom:0.9rem;max-width:26ch;}
+  .guide-meta{
+    display:flex;
+    gap:1.4rem;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    color:var(--fog);
+    letter-spacing:0.04em;
+    margin-bottom:1.2rem;
+  }
+  .guide-dek{color:var(--paper-dim);max-width:66ch;font-size:1.08rem;margin:0;}
+  section{padding:3.2rem 0;}
+  .section-tight{padding:2rem 0 3.2rem;}
+  .cover-frame{position:relative;overflow:hidden;}
+  .cover-frame img{width:100%;height:auto;}
+  .cover-frame figcaption{
+    display:flex;justify-content:space-between;gap:1rem;
+    padding:0.9rem 1.1rem;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;color:var(--fog);letter-spacing:0.04em;
+    border-top:1px solid var(--edge);
+  }
+  .guide-body{max-width:76ch;}
+  .guide-body h2{font-size:clamp(1.5rem,2.8vw,1.9rem);margin:0 0 1rem;}
+  .guide-body h3{font-size:1.05rem;letter-spacing:0.02em;margin:0 0 0.5rem;color:var(--amber);}
+  .guide-body p{color:var(--paper-dim);margin:0 0 1.2rem;}
+  .guide-wide{max-width:100%;}
+  .takeaways{list-style:none;margin:0 0 1.3rem;padding:0;display:flex;flex-direction:column;gap:0.7rem;}
+  .takeaways li{display:flex;align-items:flex-start;gap:0.65rem;color:var(--paper-dim);font-size:0.98rem;line-height:1.5;}
+  .takeaways svg{flex:none;width:16px;height:16px;margin-top:0.28rem;color:var(--amber);}
+  .part-head{
+    display:flex;align-items:baseline;gap:0.9rem;flex-wrap:wrap;
+    margin:2.8rem 0 1.6rem;
+    padding-top:2.6rem;
+    border-top:1px solid var(--edge);
+  }
+  .part-head:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+  .part-head h2{font-size:clamp(1.6rem,3vw,2.1rem);}
+  .part-num{
+    font-family:'IBM Plex Mono',monospace;color:var(--amber);
+    font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;
+  }
+  .step{margin:1.6rem 0;padding-bottom:1.4rem;border-bottom:1px solid var(--edge);}
+  .step:last-child{border-bottom:none;padding-bottom:0;}
+  .step-head{display:flex;align-items:baseline;gap:0.9rem;margin-bottom:0.4rem;}
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;color:var(--amber);
+    font-size:0.8rem;flex:none;
+    border:1px solid var(--edge-hi);
+    padding:0.15em 0.55em;
+  }
+  .step-title{font-family:'Saira',sans-serif;text-transform:none;font-weight:600;font-size:1.02rem;color:var(--paper);letter-spacing:0;}
+  .step p{margin:0;color:var(--paper-dim);}
+  /* callouts */
+  .callout{
+    border-left:3px solid var(--edge-hi);
+    background:var(--raised);
+    padding:1.1rem 1.3rem;
+    margin:0 0 1.4rem;
+  }
+  .callout p{margin:0 0 0.6rem;color:var(--paper-dim);}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .callout-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--fog);margin-right:0.5em;
+  }
+  .callout-stop{border-left-color:var(--crimson);}
+  .callout-stop .callout-label{color:var(--crimson);}
+  .callout-tip{border-left-color:var(--amber);}
+  .callout-tip .callout-label{color:var(--amber);}
+  .callout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;}
+  .callout-grid .callout{border-left:3px solid var(--amber);margin:0;}
+  .callout-grid .callout:nth-child(2){border-left-color:var(--edge-hi);}
+  .callout-grid .callout:nth-child(3){border-left-color:var(--edge-hi);}
+  @media (max-width:820px){ .callout-grid{grid-template-columns:1fr;} }
+  .photo-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem;margin:1.6rem 0;}
+  @media (max-width:700px){ .photo-pair{grid-template-columns:1fr;} }
+  .photo-pair figure,.photo-single figure{margin:0;}
+  .photo-pair img,.photo-single img{border:1px solid var(--edge);}
+  .photo-pair figcaption,.photo-single figcaption{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--fog);
+    margin-top:0.5rem;letter-spacing:0.02em;
+  }
+  .photo-single{margin:1.6rem 0;max-width:560px;}
+  /* checklists */
+  ul.checklist{list-style:none;margin:0.8rem 0 0;padding:0;display:flex;flex-direction:column;gap:0.55rem;}
+  ul.checklist li{display:flex;align-items:flex-start;gap:0.7rem;color:var(--paper-dim);font-size:0.96rem;line-height:1.5;}
+  ul.checklist li::before{
+    content:"";flex:none;width:14px;height:14px;margin-top:0.32rem;
+    border:1px solid var(--edge-hi);
+  }
+  ul.checklist code{
+    font-family:'IBM Plex Mono',monospace;font-size:0.85em;
+    background:var(--surface);border:1px solid var(--edge);padding:0.1em 0.4em;color:var(--amber);
+  }
+  .checklist-box{
+    background:var(--raised);border:1px solid var(--edge);padding:1.3rem 1.5rem;margin:1.6rem 0;
+  }
+  /* fix panels */
+  .fix-panel{
+    border-left:3px solid var(--amber);
+    background:var(--raised);
+    padding:1.3rem 1.5rem;
+    margin:0 0 1.3rem;
+  }
+  .fix-panel h3{
+    font-family:'Saira Condensed',sans-serif;text-transform:uppercase;letter-spacing:0.01em;
+    font-size:1.05rem;color:var(--paper);margin-bottom:0.4rem;
+  }
+  .fix-panel .cause{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--fog);margin-bottom:0.7rem;
+  }
+  .fix-panel .cause b{color:var(--paper-dim);font-weight:500;text-transform:none;letter-spacing:0;}
+  /* tables */
+  .table-wrap{overflow-x:auto;margin:1.4rem 0 1.8rem;}
+  table.spec{
+    width:100%;border-collapse:collapse;font-size:0.9rem;
+    background:var(--raised);border:1px solid var(--edge);
+  }
+  table.spec caption{display:none;}
+  table.spec th,table.spec td{
+    padding:0.7rem 0.9rem;text-align:left;border-bottom:1px solid var(--edge);
+    vertical-align:top;
+  }
+  table.spec thead th{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--amber);border-bottom:1px solid var(--edge-hi);
+  }
+  table.spec tbody tr:last-child td{border-bottom:none;}
+  table.spec td{color:var(--paper-dim);}
+  table.spec td:first-child{color:var(--paper);font-weight:500;}
+  /* discord promo */
+  .discord-panel{
+    padding:1.8rem;display:flex;align-items:center;justify-content:space-between;gap:1.6rem;flex-wrap:wrap;
+    margin:1.8rem 0;
+  }
+  .discord-panel h3{font-size:1.15rem;margin-bottom:0.5rem;}
+  .discord-panel p{color:var(--paper-dim);margin:0;max-width:44ch;}
+  .discord-icon{
+    width:40px;height:40px;flex:none;border:1px solid var(--edge-hi);
+    display:flex;align-items:center;justify-content:center;margin-bottom:0.9rem;
+  }
+  .guide-cta{padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;}
+  .guide-cta h3{font-size:1.2rem;margin-bottom:0.4rem;}
+  .guide-cta p{color:var(--paper-dim);margin:0;max-width:44ch;}
+  .related{margin-top:1.4rem;}
+  .related-links{display:flex;gap:0.8rem;flex-wrap:wrap;}
+  .related-links a{
+    font-family:'IBM Plex Mono',monospace;font-size:0.78rem;
+    padding:0.7em 1.1em;border:1px solid var(--edge-hi);
+    text-decoration:none;color:var(--paper-dim);
+  }
+  .related-links a:hover{border-color:var(--amber);color:var(--amber);}
+  .fine{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--fog);
+    border-top:1px solid var(--edge);padding-top:1.2rem;margin-top:2rem;
+  }
+  footer{padding:3rem 0 2.4rem;border-top:1px solid var(--edge);}
+  .footer-grid{
+    display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem;
+    padding-bottom:2rem;border-bottom:1px solid var(--edge);margin-bottom:1.4rem;
+  }
+  .footer-links{display:flex;gap:2.2rem;flex-wrap:wrap;}
+  .footer-links a{
+    font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:0.06em;
+    text-transform:uppercase;text-decoration:none;color:var(--paper-dim);
+  }
+  .footer-links a:hover{color:var(--amber);}
+  .footer-fine{
+    font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--fog);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;
+  }
+  ::selection{background:var(--amber);color:#1A1204;}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://nextlevelsimgaming.co.uk/" },
+        { "@type": "ListItem", "position": 2, "name": "Pimax Setup & Fix Guide", "item": "https://nextlevelsimgaming.co.uk/pimax-setup-and-fix-guide.html" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Pimax Setup & Fix Guide — Crystal Light, Crystal Super, Dream Air",
+      "description": "Clean-install walkthrough and symptom-by-symptom fix list for the current Pimax PCVR line — Crystal Light, Crystal Super QLED, Crystal Super Micro-OLED, Dream Air and Dream Air SE.",
+      "image": "https://nextlevelsimgaming.co.uk/pimax-fix-guide-cover.jpg",
+      "author": { "@id": "https://nextlevelsimgaming.co.uk/#organization" },
+      "publisher": { "@id": "https://nextlevelsimgaming.co.uk/#organization" },
+      "datePublished": "2026-09-09",
+      "dateModified": "2026-09-09",
+      "mainEntityOfPage": "https://nextlevelsimgaming.co.uk/pimax-setup-and-fix-guide.html"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html#top">
+      <span class="brand-mark">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 24 L16 6 L28 24 L21 24 L16 15 L11 24 Z" fill="#F2A03D"/></svg>
+      </span>
+      <span class="brand-word">Next&nbsp;Level&nbsp;Sim&nbsp;Gaming</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#videos">Latest</a></li>
+      <li><a href="gallery.html#about">About</a></li>
+      <li><a href="index.html#pimax">Pimax</a></li>
+      <li><a href="offer.html">Offer</a></li>
+      <li><a href="gallery.html#partners">Partners</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="index.html#discord">Discord</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="https://www.youtube.com/@nextlevelsimgaming?sub_confirmation=1" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 8.5v7l6-3.5-6-3.5Z"/></svg>
+        Subscribe
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap breadcrumb">
+  <a href="index.html">Home</a> / <span>Pimax Setup & Fix Guide</span>
+</div>
+
+<header class="guide-head">
+  <div class="wrap">
+    <p class="eyebrow"><span class="guide-tag">Troubleshooting guide</span></p>
+    <h1>Pimax Setup &amp; Fix Guide — Crystal Light, Crystal Super, Dream Air</h1>
+    <div class="guide-meta mono">
+      <span>Edition 1.0 · September 2026</span>
+      <span>Written against Pimax Play v2.0.3</span>
+      <span>Next Level Sim Gaming</span>
+    </div>
+    <p class="guide-dek">A clean-install walkthrough and symptom-by-symptom fix list for the current Pimax PCVR line — Crystal Light, Crystal Super QLED, Crystal Super Micro-OLED, Dream Air and Dream Air SE — written for sim rigs, where a wheelbase, pedals and a button box are all fighting for the same USB bus.</p>
+  </div>
+</header>
+
+<section class="section-tight">
+  <div class="wrap">
+    <figure class="panel cover-frame">
+      <img src="pimax-fix-guide-cover.jpg" alt="Pimax headset with the Next Level Sim Gaming sim racing rig in the background" loading="eager">
+      <figcaption>
+        <span>NEXT_LEVEL_SIM_GAMING // TECHNICAL REFERENCE</span>
+        <a href="index.html#discord" style="color:var(--amber);text-decoration:none;">Join the Discord →</a>
+      </figcaption>
+    </figure>
+
+    <div class="guide-body" style="margin-top:2.2rem;">
+      <div class="callout callout-tip">
+        <p><span class="callout-label">Free for Discord members</span>This guide began life as a PDF written for the Next Level Sim Gaming Discord, alongside deeper references like the PrimaShock crop &amp; supersample calculators. The Discord is where new editions land first, where corrections get credited, and where someone running your exact headset is usually online.</p>
+      </div>
+
+      <h2>How to use this guide</h2>
+      <p>Two halves. Part One is the clean setup — the order to install and configure a Pimax headset on a sim rig, which on its own prevents most of the faults in Part Two. Part Two is the fix list, sorted by what you're actually seeing rather than by what's technically wrong, because when the screens are black you don't yet know which it is.</p>
+      <p>The single most useful thing to understand before you start: almost every Pimax fault is software, a cable seat, or a USB problem. Genuinely dead hardware is rare. Work through the list in order and resist the urge to skip to the exotic causes.</p>
+
+      <h2>The current line, and why it matters here</h2>
+      <p>Several of the fixes below depend on which headset you own — eye tracking, IPD adjustment and panel behaviour all differ across the range.</p>
+
+      <div class="table-wrap">
+        <table class="spec">
+          <thead>
+            <tr><th>Headset</th><th>Panel</th><th>Eye tracking / DFR</th><th>IPD</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Crystal Light</td><td>LCD, glass aspheric</td><td>No — use fixed foveation</td><td>Manual wheel</td></tr>
+            <tr><td>Crystal Super QLED</td><td>QLED w/ local dimming</td><td>Yes — dynamic foveation</td><td>Motorised, manual</td></tr>
+            <tr><td>Crystal Super Micro-OLED</td><td>Sony micro-OLED</td><td>Yes — dynamic foveation</td><td>Motorised, manual</td></tr>
+            <tr><td>Dream Air</td><td>Sony micro-OLED</td><td>Yes — dynamic foveation</td><td>Motorised, manual</td></tr>
+            <tr><td>Dream Air SE</td><td>Sony micro-OLED</td><td>Yes — dynamic foveation</td><td>Motorised, manual</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Both Crystal Super optical engines are swappable, so a Super can change panel type without changing headset — if you've had the engine out, treat it as a new install and re-run Part One.</p>
+
+      <div class="photo-pair">
+        <figure>
+          <img src="pimax-dream-air-amvr-stand.jpg" alt="Pimax Dream Air headset resting on an AMVR display stand">
+          <figcaption>Dream Air on an AMVR stand.</figcaption>
+        </figure>
+        <figure>
+          <img src="pimax-crystal-super-sim-rig-mounted.jpg" alt="Pimax Crystal Super headset mounted in front of a Moza Racing wheel on a sim rig">
+          <figcaption>Crystal Super, mounted on the rig. Bigger, heavier, and it earns it.</figcaption>
+        </figure>
+      </div>
+
+      <div class="callout callout-stop">
+        <p><span class="callout-label">Stop</span>If your Pimax Play is still on a 1.4x build, stop and update before troubleshooting anything else. Half the faults people report in the Discord are already fixed in a later build, and mixing an old client with current firmware creates problems of its own.</p>
+      </div>
+
+      <div class="part-head">
+        <span class="part-num">Part One</span>
+        <h2>The clean setup</h2>
+      </div>
+      <p>Do these in order. It takes about half an hour on a fresh PC and it is the difference between a headset that just works and one you fight every weekend.</p>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;margin-top:2rem;">1 // Before you plug anything in</h3>
+      <div class="step">
+        <div class="step-head"><span class="step-num">01</span><span class="step-title">Update your GPU driver first</span></div>
+        <p>Pimax firmware has published driver floors — NVIDIA 576.80 or newer, AMD 25.8.1 or newer. Below those you get compatibility faults that look exactly like hardware faults.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">02</span><span class="step-title">Remove the legacy standalone tools</span></div>
+        <p>If you have the old standalone PimaxXR control centre or OpenXR Toolkit installed from a previous setup, uninstall both. They write the same Windows OpenXR runtime key that Pimax Play now writes, and running alongside it is the usual reason your runtime keeps flipping back to SteamVR on its own.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">03</span><span class="step-title">Install the current Pimax Play</span></div>
+        <p>v2.0.3 at time of writing. Get it from pimax.com/support/downloads rather than a link in an old forum thread. Rollouts are staged, so the version you're offered in-app may lag the version on the site.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">04</span><span class="step-title">Plan the USB port before you plug in</span></div>
+        <p>Rear motherboard port, on its own, not a front panel header and not a hub. This matters more on a sim rig than on a desk PC — see section 2.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">05</span><span class="step-title">Turn off USB power saving</span></div>
+        <p>Disable USB Selective Suspend in Windows power options, and untick "allow the computer to turn off this device" on the USB root hubs in Device Manager. Windows suspending a port to save power on a desktop that's plugged into the wall is a leading cause of mid-session drop-outs. Pimax Play's Device Diagnostics flags both and offers a one-click fix — run it.</p>
+      </div>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;margin-top:2rem;">2 // Physical connection</h3>
+      <p>Two rules cover most of it: DisplayPort goes straight to the discrete graphics card, and the headset gets USB to itself.</p>
+
+      <div class="callout-grid">
+        <div class="callout">
+          <p><span class="callout-label">Desktop</span>DisplayPort into the graphics card itself, never a motherboard video output. HDMI is not an alternative. Seat the plug at the headset end until it clicks — a hair of movement there reads as a full disconnect while the USB side still looks healthy, and it is comfortably the most common cause of "not connected".</p>
+        </div>
+        <div class="callout">
+          <p><span class="callout-label">Laptop</span>Almost always the graphics mux. The USB-C or DP output is routed through the integrated Intel or AMD GPU, so the headset never gets a direct line. Force discrete-GPU-only in the BIOS or the vendor control panel before you blame the headset.</p>
+        </div>
+        <div class="callout">
+          <p><span class="callout-label">Sim rig USB — the one people miss</span>The Crystal and Super present to Windows as internal USB hubs. Add a direct drive wheelbase, load cell pedals, a handbrake, a shifter and a button box and you can exhaust the USB endpoints Windows has available — at which point the headset silently drops off the bus with no error to tell you why. Spread peripherals across separate controllers, and give the headset a rear port nothing else shares.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><span class="callout-label">Cable care — Dream Air and fibre</span>The Dream Air's split DisplayPort and USB tether is part of how it gets that weight down, and the connector does not like being twisted. Run it with no extension, into the primary GPU DisplayPort, with the USB pigtail in a USB 3.2 port.</p>
+        <p>If you're on one of the fibre-optic cables, treat it as a consumable. A rig chair rolled over it once, or a pinch in a moving cockpit, snaps the internal strands and gives you intermittent dropouts that look like a dying headset. Keep the short stock copper cable as your test cable — if copper is rock solid, the fibre run has failed.</p>
+      </div>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;margin-top:2rem;">3 // First-run configuration</h3>
+      <div class="step">
+        <div class="step-head"><span class="step-num">01</span><span class="step-title">Firmware, done properly</span></div>
+        <p>Update firmware before you touch anything else — but read the firmware card in Part Two first, because there are two things that will hang the flash and both are avoidable.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">02</span><span class="step-title">Set screen timeout to 20 minutes</span></div>
+        <p>Device Settings. Twenty minutes is the longest option available — there is no Never. The proximity sensor dropping the panels and not waking them is the single biggest source of "my headset is black" reports, and the longest timeout removes most of it.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">03</span><span class="step-title">Set IPD</span></div>
+        <p>Crystal Light is the physical wheel. Everything else is a motorised adjustment you set yourself in Pimax Play — automatic IPD measurement is no longer a feature, so nothing is going to find the right number for you. Dial it in until the image is sharp and comfortable with your eyes level and central, then write the number down so you can put it back after anyone else borrows the headset.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">04</span><span class="step-title">Run Room Setup in the light</span></div>
+        <p>Inside-out tracking reads the room through the headset cameras and needs contrast to lock onto. Do not run setup in a pitch-black room lit only by monitor glow. Lighthouse users: cover mirrors and windows, and check the faceplate is screwed down tight for clean pogo-pin contact.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">05</span><span class="step-title">Calibrate eye tracking</span></div>
+        <p>Everything except the Crystal Light. Do it now, properly, in the lighting you actually race in — dynamic foveated rendering is worth real frames and it will not run without it.</p>
+      </div>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;margin-top:2rem;">4 // Fit and clarity — do this before any settings</h3>
+      <p>If the picture is only sharp in a small central area, that's almost always fit, not a setting and not a fault. Glass aspheric lenses in particular have a defined sweet spot, and you have to find it before you touch anything.</p>
+
+      <div class="callout callout-tip">
+        <p>Hold the headset loosely against your face and move it up and down until the dashboard text and the top of the windscreen snap sharp. Lock that height in with the top strap first, then bring the rear strap up to just-firm. Tightening the back first drags the whole thing off the sweet spot, which is why so many people conclude the lenses are soft.</p>
+      </div>
+
+      <div class="photo-single">
+        <figure>
+          <img src="pimax-crystal-super-lens-closeup.jpg" alt="Close-up of the Pimax Crystal Super optical engine lenses seen from the front">
+          <figcaption>Lens side of a Crystal Super optical engine. Everything about sharpness starts here — get your eyes central to these before you touch a single setting.</figcaption>
+        </figure>
+      </div>
+
+      <p>The halo that isn't a fault. On the QLED panels, a glow around bright objects on a dark background — headlights, lit dials, a night race under floodlights — is mini-LED local dimming behaving normally, not a defect. Pimax Play gives you control over it; turn it down or off if it distracts you. Micro-OLED panels light per-pixel and don't show it at all, which is a large part of why night racing feels different on a Dream Air.</p>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;margin-top:2rem;">5 // The performance baseline</h3>
+      <p>Set these five things once, in this order, before you start chasing in-game graphics settings. Nothing you do in the sim's own menu will rescue a rig that has these wrong.</p>
+      <div class="step">
+        <div class="step-head"><span class="step-num">01</span><span class="step-title">Runtime: Pimax OpenXR, not SteamVR</span></div>
+        <p>Pimax Play, General tab, OpenXR Runtime. iRacing, ACC, Assetto Corsa EVO, MSFS and DCS all run native OpenXR, and taking SteamVR's compositor out of the pipeline is usually the single biggest gain available. Automobilista 2 is the notable one that may still want SteamVR. Re-check this setting after any Pimax Play or SteamVR update — it can get flipped back.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">02</span><span class="step-title">Foveated rendering: on</span></div>
+        <p>Set inside Pimax Play. Dynamic on anything with eye tracking; fixed on the Crystal Light, which softens only the lens edges you aren't looking through anyway. This is the biggest free frame rate on the list and there is no reason to leave it off.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">03</span><span class="step-title">Smart Smoothing: off</span></div>
+        <p>Reprojection halves your real frame rate and smears exactly what you need to be reading — trackside fences, braking boards, the car you're side by side with. You are better off dropping shadows or MSAA and holding a genuine 72 or 90Hz.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">04</span><span class="step-title">Pixel density: set in ONE place</span></div>
+        <p>Pimax Play or the game — never both. Two multipliers stack into a resolution no GPU on earth will render, and the symptom is a mysteriously terrible frame rate on a card that should walk it.</p>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">05</span><span class="step-title">Then, and only then, tune the sim</span></div>
+        <p>With the runtime, foveation and resolution right, in-game settings behave predictably. Change one thing at a time and log the result.</p>
+      </div>
+
+      <div class="callout">
+        <p><span class="callout-label">Worth knowing in v2.x</span>The 2.0 releases added advanced Quad View adjustment, advanced FOV cropping, and a Wide FOV mode for the Crystal Light and Dream Air, plus custom button mapping for recentre, screen on/off and passthrough. If you're following an older guide — mine included — that told you to go elsewhere for these, they now live in Pimax Play.</p>
+      </div>
+
+      <div class="part-head">
+        <span class="part-num">Part Two</span>
+        <h2>The fix list</h2>
+      </div>
+      <p>Find your symptom. Work down the steps in order — they're sorted by how often they turn out to be the answer, not by how clever they are.</p>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;">The thirty-second checks</h3>
+      <p>Run these before anything else. They resolve a large share of detection and black-screen reports on their own, and they cost you almost nothing.</p>
+
+      <div class="checklist-box">
+        <ul class="checklist">
+          <li>Re-seat the DisplayPort cable at the headset end until it clicks.</li>
+          <li>Hit Restart Service in Pimax Play.</li>
+          <li>Move the headset to a rear motherboard USB port on its own.</li>
+          <li>Confirm you're on the current Pimax Play, not the one you installed last year.</li>
+          <li>Confirm your GPU driver is above the published floor (NVIDIA 576.80 / AMD 25.8.1).</li>
+          <li>Run Device Diagnostics in Pimax Play and read what it flags.</li>
+        </ul>
+      </div>
+
+      <div class="photo-single" style="max-width:640px;">
+        <figure>
+          <img src="pimax-device-diagnostics-screenshot.jpg" alt="Screenshot of the Pimax Play Device Diagnostics tool flagging USB Selective Suspend, USB Device Power Save Enabled and a missing firewall rule">
+          <figcaption>Device Diagnostics doing the useful part of the job for you. Two of the three warnings here are USB power saving — exactly the settings that drop a headset mid-session.</figcaption>
+        </figure>
+      </div>
+
+      <div class="callout">
+        <p><span class="callout-label">What the diagnostic keeps finding</span>Three flags come up over and over, and all three are Windows rather than Pimax. USB Selective Suspend and USB device power saving let Windows put the headset's USB connection to sleep to save power on a machine that's plugged into the wall and pulling 400 watts — turn both off. A missing firewall rule blocks the Pimax service from talking to the client, which shows up as a headset that never finishes connecting. Each has a Solution button next to it; use them.</p>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Pimax Play won't detect the headset</h3>
+        <p class="cause"><b>Likely cause</b> — a slightly unseated DP plug, a hung background service, or USB endpoint exhaustion.</p>
+        <ul class="checklist">
+          <li>Re-seat the DisplayPort connector at the headset end until it clicks.</li>
+          <li>Press Restart Service in Pimax Play.</li>
+          <li>If that fails: end <code>Pimax Play.exe</code>, <code>pi_server.exe</code> and <code>PiserviceLauncher</code> in Task Manager, then relaunch Pimax Play as administrator.</li>
+          <li>Still nothing: unplug every non-essential USB device on the rig, reboot, and plug the headset into a dedicated rear port. If it appears, you had endpoint saturation — reintroduce peripherals one at a time across different controllers.</li>
+          <li>Clear out ghost USB devices. Years of plugging kit in and out leaves greyed-out phantom entries consuming resources; a tool like USBDeview, run as administrator, will show and remove them.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Black screen, but Pimax Play says it's connected</h3>
+        <p class="cause"><b>Likely cause</b> — nearly always the panels sleeping and failing to wake, not a dead display.</p>
+        <ul class="checklist">
+          <li>Set Screen Timeout to 20 minutes in Device Settings — the longest option there. Fixes the majority outright.</li>
+          <li>Check you aren't running OpenXR Toolkit alongside Quad Views foveated rendering. The Toolkit doesn't support stereo Quad Views and the result is an instant black screen. Uninstall it and let Pimax Play handle foveation.</li>
+          <li>Turn Smart Smoothing off. If your GPU can't hold half the refresh rate with it on, you get a flicker to black that looks like a panel fault. Cap your frame rate in the Nvidia Control Panel instead.</li>
+          <li>Only once all three are ruled out is it worth suspecting the hardware.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>No DisplayPort signal / connection error</h3>
+        <p class="cause"><b>Likely cause</b> — how the headset is wired to the GPU, ninety per cent of the time.</p>
+        <ul class="checklist">
+          <li>Desktop: straight into the graphics card, not a motherboard video output. HDMI won't do.</li>
+          <li>Laptop: force discrete-GPU-only in BIOS or the vendor control panel so the port isn't routed through the integrated graphics.</li>
+          <li>Swap to the short stock copper cable as a test. If copper is stable and fibre has failed internally.</li>
+          <li>Dream Air: no extensions, primary GPU DisplayPort, USB pigtail into a USB 3.2 port, and don't let the connector take a twist.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Firmware update stuck or failed</h3>
+        <p class="cause"><b>Likely cause</b> — the headset going to sleep mid-flash, or a wheelbase spiking the USB bus.</p>
+        <ul class="checklist">
+          <li>Before you start: tape over the internal proximity sensor between the lenses so the headset believes it's being worn. Leave it there until Pimax Play explicitly confirms success.</li>
+          <li>Physically unplug your wheelbase and any active pedals. A direct drive base spiking the bus mid-flash will interrupt the push.</li>
+          <li>Expect it to take ten to fifteen minutes. Do not touch power, do not switch modes, do not assume it has hung at minute six.</li>
+          <li>If it genuinely failed and you're seeing a flashing multi-colour LED, that's recovery mode.</li>
+        </ul>
+        <div class="callout callout-stop" style="margin-top:1rem;margin-bottom:0;">
+          <p><span class="callout-label">Note</span>A manual DFU recovery needs the exact firmware file for your exact model, and flashing the wrong model's firmware bricks the headset permanently. If you are not completely certain, raise a support ticket instead of pushing on. This is the one place in this guide where guessing has no undo.</p>
+        </div>
+      </div>
+
+      <div class="fix-panel">
+        <h3>View drifts, judders, or won't hold centre</h3>
+        <p class="cause"><b>Likely cause</b> — inside-out cameras with nothing to lock onto, the classic dark-room sim racing failure.</p>
+        <ul class="checklist">
+          <li>Put some even ambient light in the room. A pitch-black cockpit lit only by triple-monitor glow starves the cameras completely.</li>
+          <li>Give bare walls something to see: posters, shelving, anything with contrast. If you race in the dark by preference, IR illuminators do the job without lighting the room.</li>
+          <li>Clear the saved environment data in Room Settings and run setup again in the improved lighting.</li>
+          <li>Run Device Diagnostic in Pimax Play — it will flag and re-enable a camera feed that's dropped out.</li>
+          <li>Lighthouse users: cover mirrors and windows so reflections don't confuse the base stations, and check the faceplate is fully screwed down.</li>
+          <li>Accept that some drift over a two-hour stint is normal for any inside-out headset. Bind the sim's own recentre (iRacing's Recenter HMD, MSFS's Reset VR view) to a wheel button and reset on the fly rather than fighting it.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Terrible frame rate on a strong GPU</h3>
+        <p class="cause"><b>Likely cause</b> — wrong runtime, foveation off, or two pixel density multipliers stacking.</p>
+        <ul class="checklist">
+          <li>Check the OpenXR runtime is set to Pimax OpenXR in Pimax Play's General tab. A Pimax Play or SteamVR update can silently flip it back — if a sim suddenly feels heavier than it did last week, look here first.</li>
+          <li>Confirm foveated rendering is actually on, and that eye tracking is calibrated on headsets that use it. Failed eye tracking calibration quietly disables dynamic foveation and your frames go with it.</li>
+          <li>Turn Smart Smoothing off.</li>
+          <li>Check you haven't set pixel density in both Pimax Play and the game. They multiply.</li>
+          <li>Confirm the legacy standalone PimaxXR app is uninstalled — it and Pimax Play write the same Windows setting and will keep overwriting each other.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Eye tracking stops calibrating</h3>
+        <p class="cause"><b>Likely cause</b> — dirt on the infrared sensors, nine times out of ten.</p>
+        <ul class="checklist">
+          <li>Wipe the plastic rings around the lenses with a clean, dry microfibre cloth. The IR sensors sit in there and sweat, skin oil and face-gasket residue blind them.</li>
+          <li>Restart Pimax Play and re-run calibration in your normal racing light.</li>
+          <li>Worth doing on a schedule rather than waiting for it to fail — when eye tracking goes, dynamic foveated rendering goes with it and the first thing you notice is a frame rate drop you can't explain.</li>
+        </ul>
+      </div>
+
+      <div class="fix-panel">
+        <h3>Audio drops out or only plays one side</h3>
+        <p class="cause"><b>Likely cause</b> — Windows resetting the output device, or loose strap screws on off-ear audio.</p>
+        <ul class="checklist">
+          <li>Click the speaker icon in the taskbar and set output back to the Pimax audio device. Pimax Play has a habit of resetting the endpoint on boot.</li>
+          <li>On off-ear strap audio, sound passes through pogo pins — a loose screw where the strap meets the headset body cuts one channel. Tighten both.</li>
+          <li>Controllers that won't pair: Pair New Controller in Pimax Play, or connect over USB-C to force a firmware handshake.</li>
+        </ul>
+      </div>
+
+      <div class="part-head">
+        <span class="part-num">Part Three</span>
+        <h2>When it's actually broken</h2>
+      </div>
+      <p>Most of what gets called a hardware failure isn't. But a few things genuinely are, and there's no sense grinding through software fixes for a fortnight on a headset that needs returning.</p>
+
+      <div class="checklist-box">
+        <p class="eyebrow" style="margin-bottom:0.9rem;">Stop troubleshooting and raise a ticket if:</p>
+        <ul class="checklist">
+          <li>A DFU flash has failed and left the headset unresponsive.</li>
+          <li>Dead pixels or lines survive a clean driver and Pimax Play reinstall.</li>
+          <li>The connector or cable is physically damaged and a known-good spare doesn't fix it.</li>
+          <li>You're being asked to flash firmware manually and you aren't certain of the exact file.</li>
+        </ul>
+      </div>
+
+      <h3 style="color:var(--paper);font-size:1.25rem;">Make the ticket count</h3>
+      <p>Support move much faster on a ticket that arrives complete. Before you write it, gather:</p>
+      <div class="checklist-box">
+        <ul class="checklist">
+          <li>Headset model and, on a Crystal Super, which optical engine is fitted.</li>
+          <li>Pimax Play version and current firmware version.</li>
+          <li>GPU and driver version.</li>
+          <li>Order details.</li>
+          <li>A short phone video of the fault happening. This is the big one — thirty seconds of footage beats three paragraphs of description every time.</li>
+          <li>A one-line list of what you've already tried, so nobody sends you round the loop you've just done.</li>
+          <li>Exported logs from Pimax Play.</li>
+        </ul>
+      </div>
+      <p>Keep the original box and cables. Warranty returns go far more smoothly with them, and the stock copper cable is your diagnostic control for every cable question in this guide.</p>
+
+      <div class="photo-single" style="max-width:640px;">
+        <figure>
+          <img src="pimax-sim-rig-cockpit-view.jpg" alt="View from inside a triple-monitor sim racing cockpit with a Moza Racing wheel and Pimax headset mount">
+          <figcaption>Crystal Super on the rig. Whichever headset you're on, the fault is almost always software.</figcaption>
+        </figure>
+      </div>
+
+      <div class="panel discord-panel">
+        <div>
+          <div class="discord-icon">
+            <svg viewBox="0 0 24 24" fill="#8AA0E8" width="20" height="20"><path d="M4 4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3v4l5.33-4H20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4z"/></svg>
+          </div>
+          <h3>Still stuck? Bring it to the Discord</h3>
+          <p>Post your headset, your Pimax Play version, your GPU and driver version, and what you've already tried from this guide — usually enough for someone to spot it inside an hour. There are people in there running every headset in the table above, and this guide is just one of the technical references that live there — alongside the PrimaShock crop &amp; supersample calculators and step-by-step guides for getting the most out of a Pimax on a sim rig.</p>
+        </div>
+        <a class="btn btn-discord" href="https://discord.gg/gw6xXkWtKa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3v4l5.33-4H20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4z"/></svg>
+          discord.gg/gw6xXkWtKa
+        </a>
+      </div>
+
+      <h2>Quick reference — screenshot this</h2>
+      <p>Everything from Part One on one page. If someone in the Discord asks you to "check your settings", this is the list they mean.</p>
+
+      <div class="table-wrap">
+        <table class="spec">
+          <thead>
+            <tr><th>Setting</th><th>Where</th><th>Set it to</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GPU driver</td><td>NVIDIA / AMD</td><td>576.80+ / 25.8.1+</td></tr>
+            <tr><td>Pimax Play</td><td>pimax.com/support/downloads</td><td>Current release</td></tr>
+            <tr><td>Legacy PimaxXR app</td><td>Windows apps</td><td>Uninstalled</td></tr>
+            <tr><td>OpenXR Toolkit</td><td>Windows apps</td><td>Uninstalled</td></tr>
+            <tr><td>OpenXR runtime</td><td>Pimax Play &gt; General</td><td>Pimax OpenXR</td></tr>
+            <tr><td>Foveated rendering</td><td>Pimax Play</td><td>Dynamic (fixed on Light)</td></tr>
+            <tr><td>Eye tracking</td><td>Device Settings</td><td>Calibrated</td></tr>
+            <tr><td>Smart Smoothing</td><td>Pimax Play</td><td>Off</td></tr>
+            <tr><td>Screen timeout</td><td>Device Settings</td><td>20 min (longest option)</td></tr>
+            <tr><td>Pixel density</td><td>Pimax Play OR the sim</td><td>One place only</td></tr>
+            <tr><td>USB Selective Suspend</td><td>Windows power options</td><td>Disabled</td></tr>
+            <tr><td>USB root hub power saving</td><td>Device Manager</td><td>Unticked</td></tr>
+            <tr><td>Headset USB</td><td>Rear motherboard port</td><td>Nothing else shared</td></tr>
+            <tr><td>DisplayPort</td><td>Discrete GPU directly</td><td>Clicked in at headset end</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <p><span class="callout-label">The order to try things in</span>Re-seat DP at the headset end → Restart Service → dedicated rear USB port → update Pimax Play → check the runtime → then, and only then, start suspecting hardware.</p>
+      </div>
+
+      <p class="fine">Edition 1.0, September 2026. Written against Pimax Play v2.0.3. Pimax move quickly — menu locations and version-specific behaviour change between releases. If something in here no longer matches what you're seeing, say so in the Discord and it goes into the next edition with a credit.<br><br>Disclosure: I'm an approved Pimax Sim Racing Ambassador and use the discount code NLSimgaming — it saves you money and earns the channel a commission. It doesn't change what's in this guide.</p>
+
+      <div class="related">
+        <p class="eyebrow">Keep going</p>
+        <div class="related-links">
+          <a href="index.html#pimax">Pimax Sim Racing Ambassador discount</a>
+          <a href="iracing-dream-air-driver-setting.html">iRacing + Dream Air: the 90FPS driver setting</a>
+          <a href="quest-3-vs-pimax-dream-air.html">Quest 3 vs Dream Air for iRacing VR</a>
+          <a href="gallery.html#partners">Comfort mod and lens discount codes</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel guide-cta">
+      <div>
+        <h3>Setting up a Pimax on your rig?</h3>
+        <p>Approved Pimax Sim Racing Ambassador — code NLSimgaming for a discount on the Crystal and Dream Air range.</p>
+      </div>
+      <a class="btn btn-primary" href="https://pimax.com/products/pimax-dream-air/?ref=nlsimgaming" target="_blank" rel="noopener">Shop Pimax →</a>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <a class="brand" href="index.html#top">
+        <span class="brand-mark">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 24 L16 6 L28 24 L21 24 L16 15 L11 24 Z" fill="#F2A03D"/></svg>
+        </span>
+        <span class="brand-word">Next&nbsp;Level&nbsp;Sim&nbsp;Gaming</span>
+      </a>
+      <nav class="footer-links">
+        <a href="https://www.youtube.com/@nextlevelsimgaming" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://x.com/nextlevelsim" target="_blank" rel="noopener">X</a>
+        <a href="https://discord.gg/gw6xXkWtKa" target="_blank" rel="noopener">Discord</a>
+        <a href="https://pimax.com/products/pimax-dream-air/?ref=nlsimgaming" target="_blank" rel="noopener">Pimax</a>
+        <a href="offer.html">Back to School Offer</a>
+        <a href="gallery.html#partners">Discount codes</a>
+        <a href="gallery.html">Gallery</a>
+      </nav>
+    </div>
+    <div class="footer-fine">
+      <span>&copy; 2026 Next Level Sim Gaming. All video content property of its creator.</span>
+      <span>Pimax Sim Racing Ambassador — code NLSimgaming</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
